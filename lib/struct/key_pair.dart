@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'dart:convert';
-import 'package:near_jsonrpc_client/struct/transactions.dart';
+import 'package:near_jsonrpc_client/struct/transaction/transactions.dart';
 import 'package:tweetnacl/tweetnacl.dart' as tweetnacl;
 
 class Signature {
