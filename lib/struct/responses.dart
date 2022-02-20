@@ -23,7 +23,113 @@ class NodeStatusResult {
   final List<String> validators;
   final Version version;
 
-  NodeStatusResult.name(
-      this.chainId, this.rpcAddr, this.syncInfo, this.validators, this.version);
+  NodeStatusResult.name(this.chainId, this.rpcAddr, this.syncInfo,
+      this.validators, this.version);
 }
 
+typedef BlockHash = String;
+typedef BlockHeight = int;
+
+class BlockId {
+  BlockHash? blockHash;
+  BlockHeight? blockHeight;
+
+  BlockId([this.blockHash, this.blockHeight]);
+}
+
+enum Finality {
+  optimistic,
+  nearFinal,
+  finalEnd
+}
+enum SyncCheckpoint {
+  genesis,
+  earliestAvailable,
+}
+
+class BlockReference {
+  BlockId blockId;
+  Finality finality;
+  SyncCheckpoint syncCheckpoint;
+
+  BlockReference(this.blockId, this.finality, this.syncCheckpoint);
+}
+
+enum ExecutionStatusBasic {
+  unknown,
+  pending,
+  failure,
+}
+
+class ExecutionStatus {
+  ExecutionStatusBasic status;
+  String? successValue;
+  String? successReceiptId;
+  ExecutionError? failure;
+
+  ExecutionStatus(this.status, [this.successValue, this.successReceiptId,
+    this.failure]);
+}
+
+enum FinalExecutionStatusBasic {
+  notStarted,
+  started,
+  failure,
+}
+
+class MerkleNode {
+  String hash;
+  String direction;
+
+  MerkleNode(this.hash, this.direction);
+}
+
+typedef MerklePath = List<MerkleNode>;
+
+class ExecutionError {
+  String errorMessage;
+  String errorType;
+
+  ExecutionError(this.errorMessage, this.errorType);
+}
+
+class FinalExecutionStatus {
+  String? successValue;
+  ExecutionError? failure;
+}
+
+class ExecutionOutcomeWithId {
+  String id;
+  ExecutionOutcome outcome;
+
+  ExecutionOutcomeWithId(this.id, this.outcome);
+}
+
+class ExecutionOutcome {
+  List<String> logs;
+  List<String> receipt_ids;
+  int gasBurnt;
+  ExecutionStatus status;
+
+  ExecutionOutcome(this.logs, this.receipt_ids, this.gasBurnt, this.status);
+}
+
+class ExecutionOutcomeWithIdView {
+  MerklePath proof;
+  String block_hash;
+  String id;
+  ExecutionOutcome outcome;
+
+  ExecutionOutcomeWithIdView(this.proof, this.block_hash, this.id,
+      this.outcome);
+}
+
+class FinalExecutionOutcome {
+  FinalExecutionStatus status;
+  dynamic transaction;
+  ExecutionOutcomeWithId transactionOutcome;
+  List<ExecutionOutcomeWithId> receiptsOutcome;
+
+  FinalExecutionOutcome(this.status, this.transaction, this.transactionOutcome,
+      this.receiptsOutcome);
+}
