@@ -22,8 +22,8 @@ abstract class Provider {
 
   // // TODO: Use BlockQuery?
   Future<EpochValidatorInfo> validators(BlockId blockId);
-  // abstract experimental_genesisConfig(): Promise<NearProtocolConfig>;
-  // abstract experimental_protocolConfig(blockReference: BlockReference): Promise<NearProtocolConfig>;
-  // abstract lightClientProof(request: LightClientProofRequest): Promise<LightClientProof>;
+  Future<NearProtocolConfig> experimental_genesisConfig();
+  Future<NearProtocolConfig> experimental_protocolConfig(BlockReference blockReference);
+  Future<LightClientProof> lightClientProof(LightClientProofRequest request);
   // abstract gasPrice(blockId: BlockId): Promise<GasPrice>;
 }
