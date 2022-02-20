@@ -133,3 +133,70 @@ class FinalExecutionOutcome {
   FinalExecutionOutcome(this.status, this.transaction, this.transactionOutcome,
       this.receiptsOutcome);
 }
+
+class GasPrice {
+  String gasPrice;
+
+  GasPrice(this.gasPrice);
+}
+
+class AccessKeyWithPublicKey {
+  String accountId;
+  String publicKey;
+
+  AccessKeyWithPublicKey(this.accountId, this.publicKey);
+}
+
+class QueryResponseKind {
+  BlockHeight blockHeight;
+  BlockHash blockHash;
+
+  QueryResponseKind(this.blockHeight, this.blockHash);
+}
+
+
+class ViewAccountRequest {
+  String requestType = 'view_account';
+  String accountId;
+
+  ViewAccountRequest(this.accountId);
+}
+
+class ViewCodeRequest {
+  String requestType = 'view_code';
+  String accountId;
+
+  ViewCodeRequest(this.accountId);
+}
+
+class ViewStateRequest {
+  String requestType = 'view_state';
+  String accountId;
+  String prefixBase64;
+
+  ViewStateRequest(this.accountId, this.prefixBase64);
+}
+
+class ViewAccessKeyRequest {
+  String requestType = 'view_access_key';
+  String accountId;
+  String publicKey;
+
+  ViewAccessKeyRequest(this.accountId, this.publicKey);
+}
+
+class ViewAccessKeyListRequest {
+  String requestType = 'view_access_key_list';
+  String accountId;
+
+  ViewAccessKeyListRequest(this.accountId);
+}
+
+class CallFunctionRequest {
+  String requestType = 'call_function';
+  String accountId;
+  String methodBame;
+  String argsBase64;
+
+  CallFunctionRequest(this.accountId, this.methodBame, this.argsBase64);
+}
