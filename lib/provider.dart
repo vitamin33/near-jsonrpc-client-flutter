@@ -1,4 +1,5 @@
 import 'package:near_jsonrpc_client/struct/responses.dart';
+import 'package:near_jsonrpc_client/struct/transaction/transactions.dart';
 
 abstract class Provider {
   Future<NodeStatusResult> status();
