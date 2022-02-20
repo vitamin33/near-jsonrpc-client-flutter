@@ -415,3 +415,78 @@ class Chunk {
       this.validatorProposals,
       this.signature);
 }
+
+class CurrentEpochValidatorInfo {
+  String accountId;
+  String publicKey;
+  bool isSlashed;
+  String stake;
+  List<int> shards;
+  int numProducedBlocks;
+  int numExpectedBlocks;
+
+  CurrentEpochValidatorInfo(this.accountId, this.publicKey, this.isSlashed,
+      this.stake, this.shards, this.numProducedBlocks, this.numExpectedBlocks);
+}
+
+class NextEpochValidatorInfo {
+  String accountId;
+  String publicKey;
+  String stake;
+  List<int> shards;
+
+  NextEpochValidatorInfo(
+      this.accountId, this.publicKey, this.stake, this.shards);
+}
+
+class ValidatorStakeView {
+  String accountId;
+  String publicKey;
+  String stake;
+
+  ValidatorStakeView(this.accountId, this.publicKey, this.stake);
+}
+
+class NearProtocolConfig {
+  NearProtocolRuntimeConfig runtimeConfig;
+
+  NearProtocolConfig(this.runtimeConfig);
+}
+
+class NearProtocolRuntimeConfig {
+  String storageAmountPerByte;
+
+  NearProtocolRuntimeConfig(this.storageAmountPerByte);
+}
+
+class EpochValidatorInfo {
+// Validators for the current epoch.
+  List<NextEpochValidatorInfo> nextValidators;
+
+// Validators for the next epoch.
+  List<CurrentEpochValidatorInfo> currentValidators;
+
+// Fishermen for the current epoch.
+  List<ValidatorStakeView> nextFisherman;
+
+// Fishermen for the next epoch.
+  List<ValidatorStakeView> currentFisherman;
+
+// Proposals in the current epoch.
+  List<ValidatorStakeView> currentProposals;
+
+// Kickout in the previous epoch.
+  List<ValidatorStakeView> prevEpochKickout;
+
+// Epoch start height.
+  int epochStartHeight;
+
+  EpochValidatorInfo(
+      this.nextValidators,
+      this.currentValidators,
+      this.nextFisherman,
+      this.currentFisherman,
+      this.currentProposals,
+      this.prevEpochKickout,
+      this.epochStartHeight);
+}
