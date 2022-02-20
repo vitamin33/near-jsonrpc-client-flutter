@@ -490,3 +490,60 @@ class EpochValidatorInfo {
       this.prevEpochKickout,
       this.epochStartHeight);
 }
+
+class LightClientProof {
+  ExecutionOutcomeWithIdView outcomeProof;
+  MerklePath outcomeRootProof;
+  LightClientBlockLiteView blockHeaderLite;
+  MerklePath blockProof;
+
+  LightClientProof(this.outcomeProof, this.outcomeRootProof,
+      this.blockHeaderLite, this.blockProof);
+}
+
+class BlockHeaderInnerLiteView {
+  int height;
+  String epochId;
+  String nextEpochId;
+  String prevStateRoot;
+  String outcomeRoot;
+  int timestamp;
+  String nextBpHash;
+  String blockMerkleRoot;
+
+  BlockHeaderInnerLiteView(
+      this.height,
+      this.epochId,
+      this.nextEpochId,
+      this.prevStateRoot,
+      this.outcomeRoot,
+      this.timestamp,
+      this.nextBpHash,
+      this.blockMerkleRoot);
+}
+
+class LightClientBlockLiteView {
+  String prevBlockHash;
+  String innerRestHash;
+  BlockHeaderInnerLiteView innerLite;
+
+  LightClientBlockLiteView(
+      this.prevBlockHash, this.innerRestHash, this.innerLite);
+}
+
+enum IdType {
+  transaction,
+  receipt,
+}
+
+class LightClientProofRequest {
+  IdType type;
+  String lightClientHead;
+  String? transactionHash;
+  String? senderId;
+  String? receiptId;
+  String? receiverId;
+
+  LightClientProofRequest(this.type, this.lightClientHead, this.transactionHash,
+      this.senderId, this.receiptId, this.receiverId);
+}
