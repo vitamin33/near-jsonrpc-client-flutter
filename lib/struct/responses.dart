@@ -1,3 +1,7 @@
+import 'dart:ffi';
+
+import 'package:near_jsonrpc_client/struct/transaction/transactions.dart';
+
 class SyncInfo {
   final String latestBlockHash;
   final int latestBlockHeight;
@@ -23,8 +27,8 @@ class NodeStatusResult {
   final List<String> validators;
   final Version version;
 
-  NodeStatusResult.name(this.chainId, this.rpcAddr, this.syncInfo,
-      this.validators, this.version);
+  NodeStatusResult.name(
+      this.chainId, this.rpcAddr, this.syncInfo, this.validators, this.version);
 }
 
 typedef BlockHash = String;
@@ -37,11 +41,7 @@ class BlockId {
   BlockId([this.blockHash, this.blockHeight]);
 }
 
-enum Finality {
-  optimistic,
-  nearFinal,
-  finalEnd
-}
+enum Finality { optimistic, nearFinal, finalEnd }
 enum SyncCheckpoint {
   genesis,
   earliestAvailable,
@@ -67,8 +67,8 @@ class ExecutionStatus {
   String? successReceiptId;
   ExecutionError? failure;
 
-  ExecutionStatus(this.status, [this.successValue, this.successReceiptId,
-    this.failure]);
+  ExecutionStatus(this.status,
+      [this.successValue, this.successReceiptId, this.failure]);
 }
 
 enum FinalExecutionStatusBasic {
@@ -120,8 +120,8 @@ class ExecutionOutcomeWithIdView {
   String id;
   ExecutionOutcome outcome;
 
-  ExecutionOutcomeWithIdView(this.proof, this.block_hash, this.id,
-      this.outcome);
+  ExecutionOutcomeWithIdView(
+      this.proof, this.block_hash, this.id, this.outcome);
 }
 
 class FinalExecutionOutcome {
@@ -154,19 +154,20 @@ class QueryResponseKind {
   QueryResponseKind(this.blockHeight, this.blockHash);
 }
 
-
 class ViewAccountRequest extends RpcQueryRequest {
   String requestType = 'view_account';
   String accountId;
 
-  ViewAccountRequest(BlockReference blockReference, this.accountId) : super(blockReference);
+  ViewAccountRequest(BlockReference blockReference, this.accountId)
+      : super(blockReference);
 }
 
 class ViewCodeRequest extends RpcQueryRequest {
   String requestType = 'view_code';
   String accountId;
 
-  ViewCodeRequest(BlockReference blockReference, this.accountId) : super(blockReference);
+  ViewCodeRequest(BlockReference blockReference, this.accountId)
+      : super(blockReference);
 }
 
 class ViewStateRequest extends RpcQueryRequest {
@@ -174,8 +175,9 @@ class ViewStateRequest extends RpcQueryRequest {
   String accountId;
   String prefixBase64;
 
-  ViewStateRequest(BlockReference blockReference, this.accountId, this.prefixBase64)
-  : super(blockReference);
+  ViewStateRequest(
+      BlockReference blockReference, this.accountId, this.prefixBase64)
+      : super(blockReference);
 }
 
 class ViewAccessKeyRequest extends RpcQueryRequest {
@@ -184,8 +186,8 @@ class ViewAccessKeyRequest extends RpcQueryRequest {
   String publicKey;
 
   ViewAccessKeyRequest(
-      BlockReference blockReference, this.accountId, this.publicKey
-      ) : super(blockReference);
+      BlockReference blockReference, this.accountId, this.publicKey)
+      : super(blockReference);
 }
 
 class ViewAccessKeyListRequest extends RpcQueryRequest {
@@ -196,19 +198,220 @@ class ViewAccessKeyListRequest extends RpcQueryRequest {
       : super(blockReference);
 }
 
-class CallFunctionRequest extends RpcQueryRequest{
+class CallFunctionRequest extends RpcQueryRequest {
   String requestType = 'call_function';
   String accountId;
   String methodBame;
   String argsBase64;
 
-  CallFunctionRequest(
-      BlockReference blockReference, this.accountId, this.methodBame, this.argsBase64
-      ) : super(blockReference);
+  CallFunctionRequest(BlockReference blockReference, this.accountId,
+      this.methodBame, this.argsBase64)
+      : super(blockReference);
 }
 
 abstract class RpcQueryRequest {
   BlockReference blockReference;
 
   RpcQueryRequest(this.blockReference);
+}
+
+/////////
+
+class BlockResult {
+  String author;
+  BlockHeader header;
+  List<Chunk> chunks;
+
+  BlockResult(this.author, this.header, this.chunks);
+}
+
+class BlockChange {
+  String type;
+  String accountId;
+
+  BlockChange(this.type, this.accountId);
+}
+
+class BlockChangeResult {
+  String blockHash;
+  List<BlockChange> changes;
+
+  BlockChangeResult(this.blockHash, this.changes);
+}
+
+class ChangeResult {
+  String blockHash;
+  Array<dynamic> changes;
+
+  ChangeResult(this.blockHash, this.changes);
+}
+
+class BlockHeader {
+  int height;
+  String epochId;
+  String nextEpochId;
+  String hash;
+  String prevHash;
+  String prevStateRoot;
+  String chunkReceiptsRoot;
+  String chunkHeadersRoot;
+  String chunkTxRoot;
+  String outcomeRoot;
+  int chunkIncluded;
+  String challengesRoot;
+  int timestamp;
+  String timestampNanosec;
+  String randomValue;
+  Array<dynamic> validatorProposals;
+  List<bool> chunkMask;
+  String gasPrice;
+  String rentPaid;
+  String validatorReward;
+  String totalSupply;
+  Array<dynamic> challengesResult;
+  String lastFinalBlock;
+  String lastDsFinalBlock;
+  String nextBpHash;
+  String blockMerkleRoot;
+  List<String> approvals;
+  String signature;
+  int latestProtocolVersion;
+
+  BlockHeader(
+      this.height,
+      this.epochId,
+      this.nextEpochId,
+      this.hash,
+      this.prevHash,
+      this.prevStateRoot,
+      this.chunkReceiptsRoot,
+      this.chunkHeadersRoot,
+      this.chunkTxRoot,
+      this.outcomeRoot,
+      this.chunkIncluded,
+      this.challengesRoot,
+      this.timestamp,
+      this.timestampNanosec,
+      this.randomValue,
+      this.validatorProposals,
+      this.chunkMask,
+      this.gasPrice,
+      this.rentPaid,
+      this.validatorReward,
+      this.totalSupply,
+      this.challengesResult,
+      this.lastFinalBlock,
+      this.lastDsFinalBlock,
+      this.nextBpHash,
+      this.blockMerkleRoot,
+      this.approvals,
+      this.signature,
+      this.latestProtocolVersion);
+}
+
+typedef ShardId = int;
+
+abstract class ChunkId {}
+
+class BlockShardId extends ChunkId {
+  BlockId blockId;
+  ShardId shardId;
+
+  BlockShardId(this.blockId, this.shardId);
+}
+
+class ChunkHash extends ChunkId {
+  String chunkHash;
+
+  ChunkHash(this.chunkHash);
+}
+
+class ChunkHeader {
+  String balanceBurnt;
+  ChunkHash chunkHash;
+  int encodedLength;
+  String encodedMerkleRoot;
+  int gasLimit;
+  int gasUsed;
+  int heightCreated;
+  int heightIncluded;
+  String outgoingReceiptsRoot;
+  String prevBlockHash;
+  int prevStateNumParts;
+  String prevStateRootHash;
+  String rentPaid;
+  int shardId;
+  String signature;
+  String txRoot;
+  Array<dynamic> validatorProposals;
+  String validatorReward;
+
+  ChunkHeader(
+      this.balanceBurnt,
+      this.chunkHash,
+      this.encodedLength,
+      this.encodedMerkleRoot,
+      this.gasLimit,
+      this.gasUsed,
+      this.heightCreated,
+      this.heightIncluded,
+      this.outgoingReceiptsRoot,
+      this.prevBlockHash,
+      this.prevStateNumParts,
+      this.prevStateRootHash,
+      this.rentPaid,
+      this.shardId,
+      this.signature,
+      this.txRoot,
+      this.validatorProposals,
+      this.validatorReward);
+}
+
+class ChunkResult {
+  ChunkHeader header;
+  Array<dynamic> receipts;
+  List<Transaction> transactions;
+
+  ChunkResult(this.header, this.receipts, this.transactions);
+}
+
+class Chunk {
+  String chunkHash;
+  String prevBlockHash;
+  String outcomeRoot;
+  String prevStateRoot;
+  String encodedMerkleRoot;
+  int encodedLength;
+  int heightCreated;
+  int heightIncluded;
+  int shardId;
+  int gasUsed;
+  int gasLimit;
+  String rentPaid;
+  String validatorReward;
+  String balanceBurnt;
+  String outgoingReceiptsRoot;
+  String txRoot;
+  Array<dynamic> validatorProposals;
+  String signature;
+
+  Chunk(
+      this.chunkHash,
+      this.prevBlockHash,
+      this.outcomeRoot,
+      this.prevStateRoot,
+      this.encodedMerkleRoot,
+      this.encodedLength,
+      this.heightCreated,
+      this.heightIncluded,
+      this.shardId,
+      this.gasUsed,
+      this.gasLimit,
+      this.rentPaid,
+      this.validatorReward,
+      this.balanceBurnt,
+      this.outgoingReceiptsRoot,
+      this.txRoot,
+      this.validatorProposals,
+      this.signature);
 }
