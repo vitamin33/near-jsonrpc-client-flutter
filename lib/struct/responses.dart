@@ -155,48 +155,60 @@ class QueryResponseKind {
 }
 
 
-class ViewAccountRequest {
+class ViewAccountRequest extends RpcQueryRequest {
   String requestType = 'view_account';
   String accountId;
 
-  ViewAccountRequest(this.accountId);
+  ViewAccountRequest(BlockReference blockReference, this.accountId) : super(blockReference);
 }
 
-class ViewCodeRequest {
+class ViewCodeRequest extends RpcQueryRequest {
   String requestType = 'view_code';
   String accountId;
 
-  ViewCodeRequest(this.accountId);
+  ViewCodeRequest(BlockReference blockReference, this.accountId) : super(blockReference);
 }
 
-class ViewStateRequest {
+class ViewStateRequest extends RpcQueryRequest {
   String requestType = 'view_state';
   String accountId;
   String prefixBase64;
 
-  ViewStateRequest(this.accountId, this.prefixBase64);
+  ViewStateRequest(BlockReference blockReference, this.accountId, this.prefixBase64)
+  : super(blockReference);
 }
 
-class ViewAccessKeyRequest {
+class ViewAccessKeyRequest extends RpcQueryRequest {
   String requestType = 'view_access_key';
   String accountId;
   String publicKey;
 
-  ViewAccessKeyRequest(this.accountId, this.publicKey);
+  ViewAccessKeyRequest(
+      BlockReference blockReference, this.accountId, this.publicKey
+      ) : super(blockReference);
 }
 
-class ViewAccessKeyListRequest {
+class ViewAccessKeyListRequest extends RpcQueryRequest {
   String requestType = 'view_access_key_list';
   String accountId;
 
-  ViewAccessKeyListRequest(this.accountId);
+  ViewAccessKeyListRequest(BlockReference blockReference, this.accountId)
+      : super(blockReference);
 }
 
-class CallFunctionRequest {
+class CallFunctionRequest extends RpcQueryRequest{
   String requestType = 'call_function';
   String accountId;
   String methodBame;
   String argsBase64;
 
-  CallFunctionRequest(this.accountId, this.methodBame, this.argsBase64);
+  CallFunctionRequest(
+      BlockReference blockReference, this.accountId, this.methodBame, this.argsBase64
+      ) : super(blockReference);
+}
+
+abstract class RpcQueryRequest {
+  BlockReference blockReference;
+
+  RpcQueryRequest(this.blockReference);
 }

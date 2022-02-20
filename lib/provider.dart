@@ -5,12 +5,12 @@ abstract class Provider {
   Future<NodeStatusResult> status();
 
   Future<FinalExecutionOutcome> sendTransaction(SignedTransaction signedTransaction);
+  //sendTransactionAsync(signedTransaction: SignedTransaction): Promise<FinalExecutionOutcome>;
 
+  Future<FinalExecutionOutcome> txStatus(String txHash, String accountId);
+  Future<FinalExecutionOutcome> txStatusReceipts(String txHash, String accountId);
+  Future<T> query<T extends QueryResponseKind>(RpcQueryRequest params);
 
-  // abstract sendTransactionAsync(signedTransaction: SignedTransaction): Promise<FinalExecutionOutcome>;
-  // abstract txStatus(txHash: Uint8Array | string, accountId: string): Promise<FinalExecutionOutcome>;
-  // abstract txStatusReceipts(txHash: Uint8Array, accountId: string): Promise<FinalExecutionOutcome>;
-  // abstract query<T extends QueryResponseKind>(params: RpcQueryRequest): Promise<T>;
   // abstract query<T extends QueryResponseKind>(path: string, data: string): Promise<T>;
   // // TODO: BlockQuery type?
   // abstract block(blockQuery: BlockId | BlockReference): Promise<BlockResult>;
