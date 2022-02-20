@@ -11,9 +11,11 @@ abstract class Provider {
   Future<FinalExecutionOutcome> txStatusReceipts(String txHash, String accountId);
   Future<T> query<T extends QueryResponseKind>(RpcQueryRequest params);
 
-  // abstract query<T extends QueryResponseKind>(path: string, data: string): Promise<T>;
+  Future<T> queryWithPath<T extends QueryResponseKind>(String path, String data);
+
   // // TODO: BlockQuery type?
-  // abstract block(blockQuery: BlockId | BlockReference): Promise<BlockResult>;
+  Future<BlockResult> block(BlockId blockId);
+  Future<BlockResult> blockWithReference(BlockReference blockReference);
   // abstract blockChanges(blockQuery: BlockId | BlockReference): Promise<BlockChangeResult>;
   // abstract chunk(chunkId: ChunkId): Promise<ChunkResult>;
   // // TODO: Use BlockQuery?
