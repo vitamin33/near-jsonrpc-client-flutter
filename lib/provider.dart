@@ -25,5 +25,5 @@ abstract class Provider {
   Future<NearProtocolConfig> experimental_genesisConfig();
   Future<NearProtocolConfig> experimental_protocolConfig(BlockReference blockReference);
   Future<LightClientProof> lightClientProof(LightClientProofRequest request);
-  // abstract gasPrice(blockId: BlockId): Promise<GasPrice>;
+  Future<GasPrice> gasPrice(BlockId blockId);
 }
