@@ -16,10 +16,12 @@ abstract class Provider {
   // // TODO: BlockQuery type?
   Future<BlockResult> block(BlockId blockId);
   Future<BlockResult> blockWithReference(BlockReference blockReference);
-  // abstract blockChanges(blockQuery: BlockId | BlockReference): Promise<BlockChangeResult>;
-  // abstract chunk(chunkId: ChunkId): Promise<ChunkResult>;
+  Future<BlockChangeResult> blockChangesWithReference(BlockReference blockReference);
+  Future<BlockChangeResult> blockChanges(BlockId blockId);
+  Future<ChunkResult> chunk(ChunkId chunkId);
+
   // // TODO: Use BlockQuery?
-  // abstract validators(blockId: BlockId): Promise<EpochValidatorInfo>;
+  Future<EpochValidatorInfo> validators(BlockId blockId);
   // abstract experimental_genesisConfig(): Promise<NearProtocolConfig>;
   // abstract experimental_protocolConfig(blockReference: BlockReference): Promise<NearProtocolConfig>;
   // abstract lightClientProof(request: LightClientProofRequest): Promise<LightClientProof>;
