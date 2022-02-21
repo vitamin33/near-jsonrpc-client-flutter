@@ -7,7 +7,7 @@ import 'package:near_jsonrpc_client/struct/key_pair.dart';
 
 abstract class KeyStore {
   Future<void> setKey(String networkId, String accountId, KeyPair keyPair);
-  Future<KeyPair> getKey(String networkId, String accountId);
+  Future<KeyPair?> getKey(String networkId, String accountId);
   Future<void> removeKey(String networkId, String accountId);
   Future<void> clear();
   Future<List<String>> getNetworks();

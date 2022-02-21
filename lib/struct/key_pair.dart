@@ -129,6 +129,7 @@ class KeyPairEd25519 extends KeyPair {
     return 'ed25519:$secretKey ';
   }
 
+  @override
   PublicKey getPublicKey() {
     return publicKey;
   }

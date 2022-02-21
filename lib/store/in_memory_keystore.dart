@@ -50,10 +50,10 @@ class InMemoryKeyStore extends KeyStore {
   // @param accountId The NEAR account tied to the key pair
   // @returns {Promise<KeyPair>}
   @override
-  Future<KeyPair> getKey(String networkId, String accountId) async {
+  Future<KeyPair?> getKey(String networkId, String accountId) async {
     var value = _keys['$accountId:$networkId'];
     if (value == null) {
-      throw Exception("_keys value shouldn't be null!");
+      return null;
     }
     return KeyPair.fromString(value);
   }
