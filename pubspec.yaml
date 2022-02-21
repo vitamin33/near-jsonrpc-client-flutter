@@ -13,6 +13,7 @@ dependencies:
 
   http: ^0.13.4
   tweetnacl: ^0.3.2
+  crypto: ^3.0.1
 
 dev_dependencies:
   flutter_test:
