@@ -547,3 +547,52 @@ class LightClientProofRequest {
   LightClientProofRequest(this.type, this.lightClientHead, this.transactionHash,
       this.senderId, this.receiptId, this.receiverId);
 }
+
+class FunctionCall {
+  String allowance;
+  String receiverId;
+  List<String> methodNames;
+
+  FunctionCall(this.allowance, this.receiverId, this.methodNames);
+}
+
+class FunctionCallPermissionView {
+  FunctionCall functionCall;
+
+  FunctionCallPermissionView(this.functionCall);
+}
+
+class AccessKeyView extends QueryResponseKind {
+  int nonce;
+  FunctionCallPermissionView permission;
+
+  AccessKeyView(
+      BlockHeight blockHeight, BlockHash blockHash, this.nonce, this.permission)
+      : super(blockHeight, blockHash);
+}
+
+class AccessKeyInfoView {
+  String publicKey;
+  AccessKeyView accessKey;
+
+  AccessKeyInfoView(this.publicKey, this.accessKey);
+}
+
+class AccessKeyList extends QueryResponseKind {
+  List<AccessKeyInfoView> keys;
+
+  AccessKeyList(BlockHeight blockHeight, BlockHash blockHash, this.keys)
+      : super(blockHeight, blockHash);
+}
+
+class AccountView extends QueryResponseKind {
+  String amount;
+  String locked;
+  String codeHash;
+  String storageUsage;
+  BlockHeight storagePaidAt;
+
+  AccountView(BlockHeight blockHeight, BlockHash blockHash, this.amount,
+      this.locked, this.codeHash, this.storageUsage, this.storagePaidAt)
+      : super(blockHeight, blockHash);
+}
