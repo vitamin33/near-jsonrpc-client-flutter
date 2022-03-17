@@ -10,9 +10,7 @@ class Signature {
   Signature(this.signature, this.publicKey);
 }
 
-/**
- * PublicKey representation that has type and bytes of the key.
- */
+/// PublicKey representation that has type and bytes of the key.
 class PublicKey {
   final String keyType = ed25519;
   final Uint8List data;
