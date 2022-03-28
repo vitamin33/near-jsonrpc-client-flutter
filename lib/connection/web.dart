@@ -21,7 +21,7 @@ class ConnectionInfo {
   ConnectionInfo(this.url, this.user, this.password, this.allowInsecure,
       this.timeout, this.headers);
 
-  static Future<dynamic> fetchJson(
+  static Future<http.Response> fetchJson(
       String url, String? json, Map<String, String>? headers) {
     var response = computeResult(url, json, headers);
     return response;
@@ -33,7 +33,7 @@ class ConnectionInfo {
   }
 }
 
-Future<dynamic> computeResult(
+Future<http.Response> computeResult(
     String url, String? json, Map<String, String>? headers) async {
   http.Response response;
   final client = RetryClient(http.Client());
@@ -52,10 +52,8 @@ Future<dynamic> computeResult(
   if (response.statusCode != 200) {
     if (response.statusCode == 503) {
       logger.d("Retrying HTTP request for $url as it's not available now");
-      return null;
     } else {
       logger.d("Retrying HTTP request for $url as it's not available now");
-      return null;
     }
   }
   return response;
