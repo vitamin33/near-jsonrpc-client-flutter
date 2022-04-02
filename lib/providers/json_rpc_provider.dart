@@ -1,8 +1,16 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:near_jsonrpc_client/connection/web.dart';
 import 'package:near_jsonrpc_client/struct/responses.dart';
+import 'package:near_jsonrpc_client/struct/responses/block_change_result.dart';
+import 'package:near_jsonrpc_client/struct/responses/block_result.dart';
+import 'package:near_jsonrpc_client/struct/responses/chunk_result.dart';
+import 'package:near_jsonrpc_client/struct/responses/epoch_validator_info.dart';
+import 'package:near_jsonrpc_client/struct/responses/final_execution_outcome.dart';
+import 'package:near_jsonrpc_client/struct/responses/gas_price.dart';
+import 'package:near_jsonrpc_client/struct/responses/light_client_proof.dart';
+import 'package:near_jsonrpc_client/struct/responses/near_protocol_config.dart';
+import 'package:near_jsonrpc_client/struct/responses/node_status_result.dart';
 import 'package:near_jsonrpc_client/struct/transaction/transactions.dart';
 
 import 'provider.dart';
@@ -104,7 +112,7 @@ class JsonRpcProvider extends Provider {
   /// @see {@link https://docs.near.org/docs/develop/front-end/rpc#general-validator-status}
   @override
   Future<NodeStatusResult> status() async {
-    return this.sendJsonRpc("status", {});
+    return sendJsonRpc<NodeStatusResult>("status", {});
   }
 
   @override
@@ -137,8 +145,42 @@ class JsonRpcProvider extends Provider {
         jsonRpcVersion,
         params
     );
-    var result = await fetchJson();
-    return result;
+    var requestJson = jsonEncode(request.toJson());
+    var httpResponse = await ConnectionInfo.fetchJson(connection.url, requestJson, connection.headers);
+
+    dynamic parsedObject;
+    if (httpResponse.statusCode == 200) {
+      parsedObject = parseJson<T>(httpResponse.body);
+    } else {
+      parsedObject = MaybeError(httpResponse.body);
+    }
+    return parsedObject;
+  }
+
+  Future<T> parseJson<T>(String json) async {
+    var decodedJson = jsonDecode(json);
+    switch(T.runtimeType) {
+      case NodeStatusResult:
+        return NodeStatusResult.fromJson(decodedJson) as T;
+      case FinalExecutionOutcome:
+        return FinalExecutionOutcome.fromJson(decodedJson) as T;
+      case BlockResult:
+        return BlockResult.fromJson(decodedJson) as T;
+      case BlockChangeResult:
+        return BlockChangeResult.fromJson(decodedJson) as T;
+      case ChunkResult:
+        return ChunkResult.fromJson(decodedJson) as T;
+      case EpochValidatorInfo:
+        return EpochValidatorInfo.fromJson(decodedJson) as T;
+      case NearProtocolConfig:
+        return NearProtocolConfig.fromJson(decodedJson) as T;
+      case LightClientProof:
+        return LightClientProof.fromJson(decodedJson) as T;
+      case GasPrice:
+        return GasPrice.fromJson(decodedJson) as T;
+      default:
+        throw Exception("Can't return such type!");
+    }
   }
 }
 
