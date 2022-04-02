@@ -6,6 +6,7 @@ import 'package:near_jsonrpc_client/struct/responses.dart';
 import 'package:tuple/tuple.dart';
 
 import 'connection/connection.dart';
+import 'struct/responses/final_execution_outcome.dart';
 import 'struct/transaction/transactions.dart';
 
 class AccountBalance {
