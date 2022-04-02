@@ -1,4 +1,13 @@
 import 'package:near_jsonrpc_client/struct/responses.dart';
+import 'package:near_jsonrpc_client/struct/responses/block_change_result.dart';
+import 'package:near_jsonrpc_client/struct/responses/block_result.dart';
+import 'package:near_jsonrpc_client/struct/responses/chunk_result.dart';
+import 'package:near_jsonrpc_client/struct/responses/epoch_validator_info.dart';
+import 'package:near_jsonrpc_client/struct/responses/final_execution_outcome.dart';
+import 'package:near_jsonrpc_client/struct/responses/gas_price.dart';
+import 'package:near_jsonrpc_client/struct/responses/light_client_proof.dart';
+import 'package:near_jsonrpc_client/struct/responses/near_protocol_config.dart';
+import 'package:near_jsonrpc_client/struct/responses/node_status_result.dart';
 import 'package:near_jsonrpc_client/struct/transaction/transactions.dart';
 
 abstract class Provider {
