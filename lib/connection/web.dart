@@ -14,12 +14,13 @@ class ConnectionInfo {
   String url;
   String? user;
   String? password;
-  bool allowInsecure;
-  int timeout;
-  Map<String, String> headers;
+  bool? allowInsecure;
+  int? timeout;
+  Map<String, String>? headers;
 
   ConnectionInfo(this.url, this.user, this.password, this.allowInsecure,
       this.timeout, this.headers);
+  ConnectionInfo.onlyWithUrlAndHeaders(this.url);
 
   static Future<http.Response> fetchJson(
       String url, String? json, Map<String, String>? headers) {
